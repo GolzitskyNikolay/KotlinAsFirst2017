@@ -126,6 +126,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if ((c>a)&&(d<b)) return Math.abs(d-c)
     if ((c>a)&&(c<b)) return Math.abs(b-c)
     if ((c<=a)&&(d<=b)&&(d>a)) return Math.abs(d-a)
-    if ((c<a)&&(d>b)) return Math.abs(b-a)
+    if ((c<=a)&&(d>=b)) return Math.abs(b-a)
     else return -1
 }
