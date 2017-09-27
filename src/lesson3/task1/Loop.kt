@@ -97,7 +97,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
     while ((k % m != 0) || (k % n != 0)) k += 1
     return k
 }
-/**
+*/
 
 /**
  * Простая
