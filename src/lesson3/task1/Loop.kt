@@ -91,13 +91,12 @@ fun fib(n: Int): Int = when (n) {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
-/**{
-    var k = 2
+fun lcm(m: Int, n: Int): Int {
+    var k = 1
     while ((k % m != 0) || (k % n != 0)) k += 1
     return k
 }
-*/
+
 
 /**
  * Простая
@@ -128,16 +127,15 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
-/**
-{
-    if (n<2 || m<2)  return false
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (n < 1 || m < 1 )  return false
+    else if (n == 1 || m == 1) return true
     for (k in 2..n) {
         if (((n % k) == 0) && (m % k == 0)) return false
     }
     return true
 }
-*/
+
 /**
  * Простая
  *
@@ -145,17 +143,18 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
-/**
-{
-    var k = 0
-    while (k <= n) {
-        k++
-        if (k * k < m && k * k > n) return false
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = -1
+    if (n > Int.MAX_VALUE) return false
+    while (k * k <= n) {
+        if (k * k >= m && k * k <= n) {
+            return true}
+        else k++
     }
-    return true
+    return false
 }
-*/
+
+
 /**
  * Средняя
  *
