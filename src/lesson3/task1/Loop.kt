@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 
@@ -35,7 +36,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -62,13 +63,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var k=0
-    var m= Math.abs(n)
+    var k = 0
+    var m = Math.abs(n)
     do {
         k++
         m /= 10
-    }
-    while (m > 0)
+    } while (m > 0)
     return k
 }
 
@@ -79,10 +79,10 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int = when (n) {
-        1 -> 1
-        2 -> 1
-        else -> fib(n-1)+ fib (n-2)
-    }
+    1 -> 1
+    2 -> 1
+    else -> fib(n - 1) + fib(n - 2)
+}
 
 
 /**
@@ -115,7 +115,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k=n-1
+    var k = n - 1
     while (n % k != 0) k -= 1
     return k
 }
@@ -128,7 +128,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (n < 1 || m < 1 )  return false
+    if (n < 1 || m < 1) return false
     else if (n == 1 || m == 1) return true
     for (k in 2..n) {
         if (((n % k) == 0) && (m % k == 0)) return false
@@ -145,11 +145,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = -1
-    if (n > Int.MAX_VALUE) return false
     while (k * k <= n) {
         if (k * k >= m && k * k <= n) {
-            return true}
-        else k++
+            return true
+        } else k++
     }
     return false
 }
@@ -180,17 +179,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var k= n
+    var k = n
     var s = 0
     while (k > 0) {
         s++
         k /= 10
     }
     var nnew = 0
-    var p=n
+    var p = n
     while (s > 0) {
-        nnew = (nnew + p%10 *Math.pow(10.0,s-1.0)).toInt()
-                s -= 1
+        nnew = (nnew + p % 10 * Math.pow(10.0, s - 1.0)).toInt()
+        s -= 1
         p /= 10
     }
     return nnew
@@ -204,7 +203,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var k= n
+    var k = n
     var s = 0
     while (k > 0) {
         s++
@@ -212,19 +211,35 @@ fun isPalindrome(n: Int): Boolean {
     }
     var p = n
     while (s > 0) {
-        if ((n / Math.pow(10.0,s-1.0).toInt() % 10) != (p % 10)) return false
+        if ((n / Math.pow(10.0, s - 1.0).toInt() % 10) != (p % 10)) return false
         else s -= 1
         p /= 10
     }
     return true
 }
+
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    if (n in 0..9) return false
+    var k = n
+    var s = 0
+    while (k > 0) {
+        s++
+        k /= 10
+    }
+    var y = n
+    for (i in 1..s - 1) {
+        if (n % 10 != n / Math.pow(10.0, ((s - i).toDouble())).toInt() % 10)
+            return true
+
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -233,7 +248,31 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var p = 0
+    var k = 1 //* число, квадрат которого нужен нам
+    var t = 0 //* t - это квадрат числа к
+    var s = 1 //* s указывает на порядковый номер цифры
+    var sum = 0 //* количество цифр в числе к^2
+    while (s <= n) {
+        sum = 0
+        t = k * k
+        var z = t
+        while (z > 0) {
+            sum++
+            z /= 10
+        }
+        var l = 0
+        while (l < sum) {
+            l++
+            p = (t / Math.pow(10.0, (sum - l.toDouble()))).toInt() % 10
+            if (s == n) return p
+            else s++
+        }
+        k++
+    }
+    return -1
+}
 
 /**
  * Сложная
