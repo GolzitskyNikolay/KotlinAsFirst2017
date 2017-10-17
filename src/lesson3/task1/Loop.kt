@@ -78,10 +78,22 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = when (n) {
-    1 -> 1
-    2 -> 1
-    else -> fib(n - 1) + fib(n - 2)
+fun fib(n: Int): Int {
+    var x1 = 1
+    var x2 = 1
+    var x3 = 2
+    var t = 1
+    var k = 0
+    while (t <= n) {
+        if (t == n) return x1
+        else
+            x3 += x2
+        k = x2
+        x2 += x1
+        x1 = k
+        t++
+    }
+    return -1
 }
 
 
@@ -92,8 +104,8 @@ fun fib(n: Int): Int = when (n) {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    while ((k % m != 0) || (k % n != 0)) k += 1
+    var k = Math.max(m, n)
+    while (k % m != 0 || k % n != 0) k++
     return k
 }
 
@@ -250,10 +262,10 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun squareSequenceDigit(n: Int): Int {
     var p = 0
-    var k = 1 //* число, квадрат которого нужен нам
-    var t = 0 //* t - это квадрат числа к
-    var s = 1 //* s указывает на порядковый номер цифры
-    var sum = 0 //* количество цифр в числе к^2
+    var k = 1 // число, квадрат которого нужен нам
+    var t = 0 // t - это квадрат числа к
+    var s = 1 // s указывает на порядковый номер цифры
+    var sum = 0 // количество цифр в числе к^2
     while (s <= n) {
         sum = 0
         t = k * k
@@ -281,4 +293,27 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var s = 1 //* s указывает на порядковый номер цифры
+    var sum = 0 //* количество цифр в числе
+    var z = 1
+    var p = 0
+    while (s <= n) {
+        var t = fib(z)
+        sum = 0
+        val q = t
+        while (t > 0) {
+            sum++
+            t /= 10
+        }
+        var l = 0
+        while (l < sum) {
+            l++
+            p = (q / Math.pow(10.0, (sum - l.toDouble()))).toInt() % 10
+            if (s == n) return p
+            else s++
+        }
+        z++
+    }
+    return -1
+}
