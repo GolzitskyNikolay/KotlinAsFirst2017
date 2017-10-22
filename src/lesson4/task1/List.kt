@@ -213,8 +213,7 @@ fun factorize(n: Int): List<Int> {
         if (w % e == 0) {
             q.add(e)
             w /= e
-        }
-       else e++
+        } else e++
     }
     return q.sorted()
 }
@@ -234,7 +233,16 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var t = n
+    val q = mutableListOf<Int>()
+    while (t > 0) {
+        val w = t % base
+        q.add(0, w)
+        t /= base
+    }
+    return q
+}
 
 /**
  * Сложная
@@ -245,6 +253,21 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String = TODO()
+/**
+{
+    val q = convert (n, base)
+    val w = mutableListOf<Char>()
+    when {
+        n == 0 -> return "0"
+        else -> {
+            for (i in q) {
+                if (i <= 9) w.add()
+                else w.add ()
+            }
+        }
+    } r
+}
+ */
 
 /**
  * Средняя
