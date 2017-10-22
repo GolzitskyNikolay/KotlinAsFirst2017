@@ -107,7 +107,7 @@ fun lcm(m: Int, n: Int): Int {
     var q = m
     var w = n
     if (q ==1 && w == 1) return 1 // ибо minDivisor(q) работает для числа > 1
-    else if (q == w) return minDivisor(q)
+    else if (q == w) return q
     else while (q != w) {
         if (q > w) q -= w
         else w -= q
