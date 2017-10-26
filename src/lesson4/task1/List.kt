@@ -114,17 +114,11 @@ fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    val sum = list.sum()
-    val q = list.size
-    when {
-        q == 0 -> return 0.0
-        else -> {
-            val t = sum / q
-            return t
-        }
-    }
+fun mean(list: List<Double>): Double = when (list.size) {
+    0 -> 0.0
+    else -> list.sum() / list.size
 }
+
 
 /**
  * Средняя
@@ -135,7 +129,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val q = list.sum() / list.size
+    val q = mean(list)
     for (i in 0 until list.size)
         list[i] -= q
     return list
@@ -151,10 +145,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     val q = a.size
     var sum = 0.0
-    if (q == 0) return 0.0
-    else for (i in 0 until q) {
+    for (i in 0 until q)
         sum += a[i] * b[i]
-    }
     return sum
 }
 
@@ -170,8 +162,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
     var w = 1.0
     val q = p.size
-    if (q == 0) return 0.0
-    else for (i in 0 until q) {
+    for (i in 0 until q) {
         sum += p[i] * w
         w *= x
     }
@@ -215,7 +206,7 @@ fun factorize(n: Int): List<Int> {
             w /= e
         } else e++
     }
-    return q.sorted()
+    return q
 }
 
 /**
@@ -253,22 +244,21 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
-/**
-{
-    val q = convert (n, base)
+fun convertToString(n: Int, base: Int): String {
+    val q = convert(n, base)
     val w = mutableListOf<Char>()
     when {
         n == 0 -> return "0"
         else -> {
             for (i in q) {
-                if (i <= 9) w.add()
-                else w.add ()
+                if (i <= 9) w.add('0' + i)
+                else w.add('a' + i - 10)
             }
         }
-    } r
+    }
+    return w.joinToString("")
 }
- */
+
 
 /**
  * Средняя
@@ -277,7 +267,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var q = 0
+    for (i in 0 until digits.size) {
+        q = q * base + digits[i]
+    }
+    return q
+}
 
 /**
  * Сложная

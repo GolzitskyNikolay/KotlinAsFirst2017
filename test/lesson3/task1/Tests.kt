@@ -125,6 +125,7 @@ class Tests {
         assertEquals(1, maxDivisor(Int.MAX_VALUE))
     }
 
+
     @Test
     @Tag("Easy")
     fun isCoPrime() {
@@ -148,6 +149,7 @@ class Tests {
         assertFalse(squareBetweenExists(2147395601, Int.MAX_VALUE))
         assertTrue(squareBetweenExists(890750681, 2147483647))
     }
+
 
     @Test
     @Tag("Normal")

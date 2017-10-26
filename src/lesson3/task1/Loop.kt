@@ -82,16 +82,14 @@ fun fib(n: Int): Int {
     var x1 = 1
     var x2 = 1
     var x3 = 2
-    var t = 1
     var k = 0
-    while (t <= n) {
+    for (t in 1..n) {
         if (t == n) return x1
         else
             x3 += x2
         k = x2
         x2 += x1
         x1 = k
-        t++
     }
     return -1
 }
@@ -106,13 +104,13 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var q = m
     var w = n
-    if (q ==1 && w == 1) return 1 // ибо minDivisor(q) работает для числа > 1
+    if (q == 1 && w == 1) return 1
     else if (q == w) return q
     else while (q != w) {
         if (q > w) q -= w
         else w -= q
     }
-    val k = m * n / q
+    val k = m / q * n
     return k
 }
 
@@ -123,9 +121,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 2
-    while (n % k != 0) k++
-    return k
+    if (n % 2 == 0) return 2
+    else for (i in 3..n step 2) {
+        if (n % i == 0) return i
+    }
+    return -1
 }
 
 /**
@@ -142,14 +142,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (n < 1 || m < 1) return false
-    else if (n == 1 || m == 1) return true
-    for (k in 2..n) {
-        if (((n % k) == 0) && (m % k == 0)) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
 
 /**
  * Простая
@@ -159,14 +152,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 0
-    while (k * k <= n) {
-        if (k * k >= m) return true
-        else k++
+    for (k in 0..(Math.sqrt(Int.MAX_VALUE.toDouble())).toInt()) {
+        if (k * k in m..n) return true
     }
     return false
 }
-
 
 /**
  * Средняя
@@ -192,12 +182,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun pow (q: Int, w: Int): Int {
+fun pow(q: Int, w: Int): Int {
     var t = q
     var y = w
     if (w == 0) return 1
-     else if (w == 1) return q
-     else while (y > 1) {
+    else if (w == 1) return q
+    else while (y > 1) {
         t *= q
         y -= 1
     }
@@ -205,18 +195,11 @@ fun pow (q: Int, w: Int): Int {
 }
 
 fun revert(n: Int): Int {
-    var k = n
-    var s = 0
-    while (k > 0) {
-        s++
-        k /= 10
-    }
+    var q = n
     var nnew = 0
-    var p = n
-    while (p > 0) {
-        nnew += p % 10 * pow(10, s - 1)
-        s -= 1
-        p /= 10
+    while (q > 0) {
+        nnew = nnew * 10 + q % 10
+        q /= 10
     }
     return nnew
 }
@@ -228,21 +211,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var k = n
-    var s = 0
-    while (k > 0) {
-        s++
-        k /= 10
-    }
-    var p = n
-    while (s > 0) {
-        if ((n / pow(10, s - 1) % 10) != (p % 10)) return false
-        else s -= 1
-        p /= 10
-    }
-    return true
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -252,17 +221,16 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     if (n in 0..9) return false
-    var k = n
-    var s = 0
-    while (k > 0) {
-        s++
-        k /= 10
-    }
-    var y = n
-    for (i in 1..s - 1) {
-        if (n % 10 != n / pow(10, s - i) % 10)
-            return true
-
+    var q = n
+    var w = n / 10
+    while (q > 0) {
+        val k = q % 10
+        while (w > 0) {
+            if (k != w % 10) return true
+            w /= 10
+        }
+        q /= 10
+        w = q / 10
     }
     return false
 }
@@ -283,11 +251,7 @@ fun squareSequenceDigit(n: Int): Int {
     while (s <= n) {
         sum = 0
         t = k * k
-        var z = t
-        while (z > 0) {
-            sum++
-            z /= 10
-        }
+        sum = digitNumber(t)
         var l = 0
         while (l < sum) {
             l++
@@ -313,13 +277,10 @@ fun fibSequenceDigit(n: Int): Int {
     var z = 1
     var p = 0
     while (s <= n) {
-        var t = fib(z)
+        val t = fib(z)
         sum = 0
         val q = t
-        while (t > 0) {
-            sum++
-            t /= 10
-        }
+        sum = digitNumber(t)
         var l = 0
         while (l < sum) {
             l++
