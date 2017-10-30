@@ -29,6 +29,12 @@ class Tests {
         assertTrue(queenThreatens(8, 1, 1, 8))
         assertFalse(queenThreatens(7, 6, 5, 7))
     }
+    @Test
+    @Tag("Easy")
+    fun middle() {
+        assertEquals(648, middle(648, 2, 648))
+    }
+
 
     @Test
     @Tag("Normal")
@@ -37,6 +43,7 @@ class Tests {
         assertTrue(brickPasses(4, 4, 4, 4, 4))
         assertFalse(brickPasses(6, 5, 4, 3, 6))
         assertTrue(brickPasses(3, 2, 1, 1, 2))
+        assertFalse(brickPasses(648, 2, 648, 369, 316))
     }
 
     @Test

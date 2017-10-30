@@ -62,9 +62,27 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
+fun middle(a: Int, b: Int, c: Int): Int { //функция для нахождения среднего числа из 3
+    var max1 = 0
+    var max2 = 0
+    var mid = 0
+    if (a >= b) {
+        max1 = a
+        mid = b
+    } else {
+        max1 = b
+        mid = a
+    }
+    if (max1 <= c) {
+        max2 = c
+        mid = max1
+    } else if (c >= mid) mid = c
+    return mid
+}
+
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val min1 = Math.min(a, b)
-    val min2 = Math.min(c, min1)
-    return (min1 <= r && min2 <= s || (min1 <= s && min2 <= r))
+    val min2 = Math.min(min1, c)
+    return (min2 <= r && middle(a, b, c) <= s || (min2 <= s && middle(a, b, c) <= r))
 }
 
