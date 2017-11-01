@@ -81,17 +81,15 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var x1 = 1
     var x2 = 1
-    var x3 = 2
     var k = 0
-    for (t in 1..n) {
-        if (t == n) return x1
-        else
-            x3 += x2
-        k = x2
-        x2 += x1
-        x1 = k
+    if (n in 1..2) return 1
+    for (t in 3..n) {
+            k = x1 + x2
+            x2 = x1
+            x1 = k
+
     }
-    return -1
+    return k
 }
 
 
@@ -122,10 +120,10 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     if (n % 2 == 0) return 2
-    else for (i in 3..n step 2) {
+    else for (i in 3..Math.sqrt(n.toDouble()).toInt() step 2) {
         if (n % i == 0) return i
     }
-    return -1
+    return n
 }
 
 /**
@@ -152,7 +150,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (k in 0..(Math.sqrt(Int.MAX_VALUE.toDouble())).toInt()) {
+    for (k in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
         if (k * k in m..n) return true
     }
     return false
@@ -223,14 +221,13 @@ fun hasDifferentDigits(n: Int): Boolean {
     if (n in 0..9) return false
     var q = n
     var w = n / 10
-    while (q > 0) {
+    while (w > 0) {
         val k = q % 10
-        while (w > 0) {
-            if (k != w % 10) return true
+        if (k != w % 10) return true
+        else {
             w /= 10
+            q /= 10
         }
-        q /= 10
-        w = q / 10
     }
     return false
 }
