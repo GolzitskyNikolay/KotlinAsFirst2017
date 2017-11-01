@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -48,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -66,7 +65,36 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    val date = mutableListOf<String>()
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            date.add(twoDigitStr(day))
+            when {
+                parts[1] == "января" && day in 1..31 -> date.add("01")
+                parts[1] == "февраля" && day in 1..29 -> date.add("02")
+                parts[1] == "марта" && day in 1..31 -> date.add("03")
+                parts[1] == "апреля" && day in 1..30 -> date.add("04")
+                parts[1] == "мая" && day in 1..31 -> date.add("05")
+                parts[1] == "июня" && day in 1..30 -> date.add("06")
+                parts[1] == "июля" && day in 1..31 -> date.add("07")
+                parts[1] == "августа" && day in 1..31 -> date.add("08")
+                parts[1] == "сентября" && day in 1..30 -> date.add("09")
+                parts[1] == "октября" && day in 1..31 -> date.add("10")
+                parts[1] == "ноября" && day in 1..30 -> date.add("11")
+                parts[1] == "декабря" && day in 1..31 -> date.add("12")
+                else -> return ""
+            }
+            date.add(parts[2])
+            val q = date.joinToString(separator = ".")
+            return q
+        } catch (t: NumberFormatException) {
+            return ""
+        }
+    } else return ""
+}
 
 /**
  * Средняя
@@ -75,7 +103,38 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    val list = mutableListOf<String>("января", "февраля", "марта",
+            "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val q = mutableListOf<String>()
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            q.add(day.toString())
+            val month = parts[1].toInt()
+            when (month) {
+                1 -> q.add(list[month - 1])
+                2 -> q.add(list[month - 1])
+                3 -> q.add(list[month - 1])
+                4 -> q.add(list[month - 1])
+                5 -> q.add(list[month - 1])
+                6 -> q.add(list[month - 1])
+                7 -> q.add(list[month - 1])
+                8 -> q.add(list[month - 1])
+                9 -> q.add(list[month - 1])
+                10 -> q.add(list[month - 1])
+                11 -> q.add(list[month - 1])
+                12 -> q.add(list[month - 1])
+                else -> return ""
+            }
+            q.add(parts[2])
+            return q.joinToString(" ")
+        } catch (t: NumberFormatException) {
+            return ""
+        }
+    } else return ""
+}
 
 /**
  * Средняя
