@@ -362,8 +362,8 @@ fun russian(n: Int): String {
                     q /= 10
                 }
                 q % 10 in 5..9 -> {
-                    word.add(0, HundredsAndThousands[q % 10 - 1])
-                    word.add(1, HundredsAndThousands[11])
+                    word.add(0,units[q % 10 - 1])
+                    word.add(1, HundredsAndThousands[10])
                     q /= 10
                 }
                 q % 10 == 0 -> q /= 10
