@@ -113,21 +113,8 @@ fun dateDigitToStr(digital: String): String {
             val day = parts[0].toInt()
             q.add(day.toString())
             val month = parts[1].toInt()
-            when (month) {
-                1 -> q.add(list[month - 1])
-                2 -> q.add(list[month - 1])
-                3 -> q.add(list[month - 1])
-                4 -> q.add(list[month - 1])
-                5 -> q.add(list[month - 1])
-                6 -> q.add(list[month - 1])
-                7 -> q.add(list[month - 1])
-                8 -> q.add(list[month - 1])
-                9 -> q.add(list[month - 1])
-                10 -> q.add(list[month - 1])
-                11 -> q.add(list[month - 1])
-                12 -> q.add(list[month - 1])
-                else -> return ""
-            }
+            if (month in 1..12) q.add(list[month - 1])
+            else return ""
             q.add(parts[2])
             return q.joinToString(" ")
         } catch (t: NumberFormatException) {

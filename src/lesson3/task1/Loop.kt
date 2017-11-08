@@ -84,9 +84,9 @@ fun fib(n: Int): Int {
     var k = 0
     if (n in 1..2) return 1
     for (t in 3..n) {
-            k = x1 + x2
-            x2 = x1
-            x1 = k
+        k = x1 + x2
+        x2 = x1
+        x1 = k
 
     }
     return k
@@ -163,6 +163,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
+
 fun sin(x: Double, eps: Double): Double = TODO()
 
 /**

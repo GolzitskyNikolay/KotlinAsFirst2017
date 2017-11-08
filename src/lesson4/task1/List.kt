@@ -291,7 +291,7 @@ fun decimalFromString(str: String, base: Int): Int {
         else q += element - 'a' + 10
     }
     var k = q[0]
-    for (t in 1 until q.size ) k = k * base + q[t]
+    for (t in 1 until q.size) k = k * base + q[t]
     return k
 }
 
@@ -312,4 +312,78 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val units = listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val FromTenToNineteen = listOf<String>("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+            "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать", "одна", "две")
+    val Dozens = listOf<String>("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
+            "восемьдесят", "девяносто")
+    val HundredsAndThousands = listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
+            "восемьсот", "девятьсот", "тысяча", "тысяч", "тысячи")
+    var q = n
+    val word = mutableListOf<String>()
+    if (q % 100 in 10..19) {
+        word.add(FromTenToNineteen[q % 10])
+        q /= 100
+    } else {
+        if (q % 10 != 0) {
+            word.add(units[q % 10 - 1])                // ЕДИНИЦЫ
+            q /= 10
+        } else q /= 10
+        q /= if (q > 0 && q % 10 != 0) {
+            word.add(0, Dozens[q % 10 - 2])               // ДЕСЯТКИ
+            10
+        } else 10
+    }
+    q /= if (q > 0 && q % 10 != 0) {
+        word.add(0, HundredsAndThousands[q % 10 - 1])     // CОТНИ
+        10
+    } else 10
+    if (q > 0) {
+        if (q % 100 in 10..19) {
+            word.add(0, FromTenToNineteen[q % 10])             // ЕДИНИЦЫ ТЫСЯЧ
+            word.add(1, HundredsAndThousands[10])
+            q /= 100
+        } else {
+            when {
+                q % 10 == 1 -> {
+                    word.add(0, FromTenToNineteen[10])
+                    word.add(1, HundredsAndThousands[9])
+                    q /= 10
+                }
+                q % 10 == 2 -> {
+                    word.add(0, FromTenToNineteen[11])
+                    word.add(1, HundredsAndThousands[11])
+                    q /= 10
+                }
+                q % 10 in 3..4 -> {
+                    word.add(0, units[q % 10 - 1])
+                    word.add(1, HundredsAndThousands[11])
+                    q /= 10
+                }
+                q % 10 in 5..9 -> {
+                    word.add(0, HundredsAndThousands[q % 10 - 1])
+                    word.add(1, HundredsAndThousands[11])
+                    q /= 10
+                }
+                q % 10 == 0 -> q /= 10
+            }
+            q /= if (q > 0 && q % 10 != 0) {
+                word.add(0, Dozens[q % 10 - 2])                 // ДЕСЯТКИ ТЫСЯЧ
+                10
+            } else 10
+        }
+    }
+    if (q > 0 && q % 10 != 0) {
+        word.add(0, HundredsAndThousands[q % 10 - 1])             // CОТНИ ТЫСЯЧ
+        if ("тысяч" in word || "тысяча" in word || "тысячи" in word)
+            return word.joinToString(" ")
+        else {
+            word.add(1, HundredsAndThousands[10])
+            q /= 10
+        }
+    }
+    return word.joinToString(" ")
+}
+
+
