@@ -362,16 +362,20 @@ fun russian(n: Int): String {
                     q /= 10
                 }
                 q % 10 in 5..9 -> {
-                    word.add(0,units[q % 10 - 1])
+                    word.add(0, units[q % 10 - 1])
                     word.add(1, HundredsAndThousands[10])
                     q /= 10
                 }
                 q % 10 == 0 -> q /= 10
             }
-            q /= if (q > 0 && q % 10 != 0) {
+            if (q > 0 && q % 10 != 0) {
                 word.add(0, Dozens[q % 10 - 2])                 // ДЕСЯТКИ ТЫСЯЧ
-                10
-            } else 10
+                if ("тысяч" in word || "тысяча" in word || "тысячи" in word) q /= 10
+                else {
+                    word.add(1, HundredsAndThousands[10])
+                    q /= 10
+                }
+            } else q /= 10
         }
     }
     if (q > 0 && q % 10 != 0) {
