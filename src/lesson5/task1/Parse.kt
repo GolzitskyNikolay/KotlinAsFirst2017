@@ -224,7 +224,7 @@ fun plusMinus(expression: String): Int {
     if (expression.isEmpty() || expression == " ") throw IllegalArgumentException()
     var result = 0
     for (element in expression) {
-        if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
+        if (element in '0'..'9' || (element == '+' || element == '-' || element == ' ' && q.size != 1)) {
         } else throw IllegalArgumentException()
     }
     result = q[0].toInt()
@@ -283,7 +283,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     val q = description.split(" ", ";")
-    val w = description.filter { (it !in 'а'..'я' && it !in 'А'..'Я' && it != ';')}.split(" ")
+    val w = description.filter { (it !in 'а'..'я' && it !in 'А'..'Я' && it != ';') }.split(" ")
     var k = 0
     var max = 0.0
     var t = 0
