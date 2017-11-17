@@ -135,7 +135,21 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val w = phone.split("-", " ", ")", "(")
+    var q = String()
+    try {
+        for (element in w) {
+            for (i in 1 until w.size)
+                if (element in "a".."z" || w[i] == "+") throw NumberFormatException()
+                else q = w.joinToString("")
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return q
+}
+
 
 /**
  * Средняя
@@ -147,7 +161,24 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val q = jumps.filter { (it.toString() != "%") && (it.toString() != "-") }.split(" ")
+    var max = 0
+    try {
+        if (q.joinToString("") == "") throw NumberFormatException()
+        else for (i in 0 until q.size) {
+            if (q[i] != "") {
+                if (q[i].toInt() > max)
+                    max = q[i].toInt()
+            }
+            if (q[i] != "" && q[i].toInt() !in 0..Int.MAX_VALUE) throw NumberFormatException()
+        }
+
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -159,7 +190,23 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val q = jumps.filter { (it.toString() != "%") && (it.toString() != "-") }.split(" ")
+    var max = -1
+    println(q)
+    try {
+        if (q.size == 1) return -1
+        else for (i in 0..q.size - 2 step 2) {
+            if (q[i].toInt() in 0..Int.MAX_VALUE && q[i + 1] == "+") {
+                if (q[i].toInt() > max) max = q[i].toInt()
+            } else if (q[i].toInt() in 0..Int.MAX_VALUE && q[i + 1] == "") {
+            } else throw NumberFormatException()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -170,7 +217,26 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val q = expression.split(" ")
+    println(q)
+    var result = q[0].toInt()
+    try {
+        when {
+            q[0].toInt() !in 0..Int.MAX_VALUE -> throw IllegalArgumentException()
+            q.size in 1..2 -> return result
+            else -> for (i in 0 until q.size - 1 step 2) {
+                when {
+                    q[i + 1] == "+" -> result += q[i + 2].toInt()
+                    q[i + 1] == "-" -> result -= q[i + 2].toInt()
+                    else -> throw IllegalArgumentException()
+                }
+            }
+        }
+    } catch (e: IllegalArgumentException) {
+    }
+    return result
+}
 
 /**
  * Сложная
