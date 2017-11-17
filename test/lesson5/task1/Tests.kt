@@ -53,6 +53,8 @@ class Tests {
     @Test
     @Tag("Normal")
     fun flattenPhoneNumber() {
+        assertEquals("", flattenPhoneNumber("%Xtqqvk>fJM|a_#Br+@f2Yy0X)R9Lc~2Os\\5TLv&,\t;vwJ[\\u%_"
+                + "YQKh~p0(ZcDS3L|Nk:[e>)HYmB7R@\\F$|&.3b2p!\"jYg}ckR'}v[k:5@qL8[s0J`5lGDNx1\"Gj6%7Y\th-700 {J==@@6u0isM!f[N>"))
         assertEquals("", flattenPhoneNumber(" %+"))
         assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
         assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))

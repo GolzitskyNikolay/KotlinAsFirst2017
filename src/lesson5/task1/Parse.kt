@@ -137,13 +137,11 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val w = phone.split("-", " ", ")", "(")
-    var q = String()
+    val q = w.joinToString("")
     try {
-        if (w[0] == "") return ""
-        else for (element in w) {
-            for (i in 1 until w.size)
-                if (element in "a".."z" || w[i] == "+") throw NumberFormatException()
-                else q = w.joinToString("")
+        for (element in q) {
+            if (element in '0'..'9' || q[0].toString() == "+") {
+            } else throw NumberFormatException()
         }
     } catch (e: NumberFormatException) {
         return ""
@@ -221,8 +219,12 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     val q = expression.split(" ")
     println(q)
-    var result = q[0].toInt()
-    try {
+    var result = 0
+        for (element in expression) {
+            if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
+            } else throw IllegalArgumentException()
+        }
+        result = q[0].toInt()
         when {
             q[0].toInt() !in 0..Int.MAX_VALUE -> throw IllegalArgumentException()
             q.size in 1..2 -> return result
@@ -234,8 +236,6 @@ fun plusMinus(expression: String): Int {
                 }
             }
         }
-    } catch (e: IllegalArgumentException) {
-    }
     return result
 }
 
