@@ -140,7 +140,7 @@ fun flattenPhoneNumber(phone: String): String {
     val q = w.toList()
     println(q)
     try {
-        if (phone.isEmpty() || phone == " " || (q[0] !in '0'..'9' && q[0] != '+')) throw NumberFormatException()
+        if (phone.isEmpty() || phone == " " || (q[0] !in '0'..'9' && q.size == 1)) throw NumberFormatException()
         for (i in 1 until q.size) {
             if (q[i] in '0'..'9') {
             } else throw NumberFormatException()
