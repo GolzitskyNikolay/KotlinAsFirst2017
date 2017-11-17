@@ -136,17 +136,18 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val w = phone.split("-", " ", ")", "(")
-    val q = w.joinToString("")
+    val w = phone.split("-", " ", ")", "(").joinToString("")
+    val q = w.toList()
+    println(q)
     try {
-        for (element in q) {
-            if (element in '0'..'9' || q[0].toString() == "+") {
+        for (i in 1 until q.size) {
+            if (q[i] in '0'..'9') {
             } else throw NumberFormatException()
         }
     } catch (e: NumberFormatException) {
         return ""
     }
-    return q
+    return w
 }
 
 
@@ -217,25 +218,25 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    if (expression == "") throw IllegalArgumentException()
     val q = expression.split(" ")
-    println(q)
     var result = 0
-        for (element in expression) {
-            if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
-            } else throw IllegalArgumentException()
-        }
-        result = q[0].toInt()
-        when {
-            q[0].toInt() !in 0..Int.MAX_VALUE -> throw IllegalArgumentException()
-            q.size in 1..2 -> return result
-            else -> for (i in 0 until q.size - 1 step 2) {
-                when {
-                    q[i + 1] == "+" -> result += q[i + 2].toInt()
-                    q[i + 1] == "-" -> result -= q[i + 2].toInt()
-                    else -> throw IllegalArgumentException()
-                }
+    for (element in expression) {
+        if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
+        } else throw IllegalArgumentException()
+    }
+    result = q[0].toInt()
+    when {
+        q[0].toInt() !in 0..Int.MAX_VALUE -> throw IllegalArgumentException()
+        q.size in 1..2 -> return result
+        else -> for (i in 0 until q.size - 1 step 2) {
+            when {
+                q[i + 1] == "+" -> result += q[i + 2].toInt()
+                q[i + 1] == "-" -> result -= q[i + 2].toInt()
+                else -> throw IllegalArgumentException()
             }
         }
+    }
     return result
 }
 
