@@ -140,7 +140,7 @@ fun flattenPhoneNumber(phone: String): String {
     val q = w.toList()
     println(q)
     try {
-        if (phone.isEmpty() || (q[0] !in '0'..'9' && q[0] != '+')) throw NumberFormatException()
+        if (phone.isEmpty() || phone == " " || (q[0] !in '0'..'9' && q[0] != '+')) throw NumberFormatException()
         for (i in 1 until q.size) {
             if (q[i] in '0'..'9') {
             } else throw NumberFormatException()
@@ -220,7 +220,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val q = expression.split(" ")
-    if (q.isEmpty()) throw IllegalArgumentException()
+    if (expression.isEmpty()) throw IllegalArgumentException()
     var result = 0
     for (element in expression) {
         if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
