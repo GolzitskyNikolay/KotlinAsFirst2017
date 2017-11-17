@@ -143,8 +143,8 @@ fun flattenPhoneNumber(phone: String): String {
         if (phone.isEmpty() || phone == " " || (q[0] !in '0'..'9' && q.size == 1)) throw NumberFormatException()
         for (i in 0 until q.size) {
             if (q[i] != '+')
-            if (q[i] in '0'..'9') {
-            } else throw NumberFormatException()
+                if (q[i] in '0'..'9') {
+                } else throw NumberFormatException()
         }
     } catch (e: NumberFormatException) {
         return ""
@@ -251,7 +251,24 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val q = str.toLowerCase().split(" ")
+    if (q.size in 0..1) return -1
+    val w = str.split("")
+    var e = 0
+    var result = 0
+    for (i in 0..q.size - 2) {
+        if (q[i] == q[i + 1]) e = i
+    }
+    for (j in 1..w.size - 2) {
+        if (e > 0) {
+            if (w[j] == " ") e -= 1
+            result++
+
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -264,7 +281,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val q = description.split(" ", ";")
+    val w = description.filter { (it !in 'а'..'я' && it !in 'А'..'Я' && it != ';')}.split(" ")
+    var k = 0
+    var max = 0.0
+    var t = 0
+    if (q.size == 2) return q[0]
+    return if (q.size > 2) {
+        for (i in 1..q.size step 3) {
+            if (q[i].toDouble() > max) {
+                max = q[i].toDouble()
+                k = t
+            }
+            t += 3
+        }
+        q[k]
+    } else ""
+}
 
 /**
  * Сложная
