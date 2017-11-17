@@ -53,6 +53,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun flattenPhoneNumber() {
+        assertEquals("", flattenPhoneNumber("\n"))
         assertEquals("", flattenPhoneNumber("-      --   -- - - ---  -    --- --- - +72-0612(0 - )- " +
                 " - [8, 8,  -8-   , 5, 2, 7, -1, 7, ---2, 1, -3 ,   7,  -7, 0, 7, 4,-  6--,- 1,   0, 2, 7, 1, 0, 7, " +
                 "   1, -4 -, 5, 8,   5- , 0-, - -7,  1, 8, -4,  8,  1,  8--,--  0,  4  , 0, -8,  8]"))
