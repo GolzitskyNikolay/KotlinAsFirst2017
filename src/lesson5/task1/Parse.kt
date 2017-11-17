@@ -139,7 +139,8 @@ fun flattenPhoneNumber(phone: String): String {
     val w = phone.split("-", " ", ")", "(")
     var q = String()
     try {
-        for (element in w) {
+        if (w[0] == "") return ""
+        else for (element in w) {
             for (i in 1 until w.size)
                 if (element in "a".."z" || w[i] == "+") throw NumberFormatException()
                 else q = w.joinToString("")
