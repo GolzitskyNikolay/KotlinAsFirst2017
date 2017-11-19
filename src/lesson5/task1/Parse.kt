@@ -68,32 +68,30 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     val date = mutableListOf<String>()
-    if (parts.size == 3) {
-        try {
-            val day = parts[0].toInt()
-            date.add(twoDigitStr(day))
-            when {
-                parts[1] == "января" && day in 1..31 -> date.add("01")
-                parts[1] == "февраля" && day in 1..29 -> date.add("02")
-                parts[1] == "марта" && day in 1..31 -> date.add("03")
-                parts[1] == "апреля" && day in 1..30 -> date.add("04")
-                parts[1] == "мая" && day in 1..31 -> date.add("05")
-                parts[1] == "июня" && day in 1..30 -> date.add("06")
-                parts[1] == "июля" && day in 1..31 -> date.add("07")
-                parts[1] == "августа" && day in 1..31 -> date.add("08")
-                parts[1] == "сентября" && day in 1..30 -> date.add("09")
-                parts[1] == "октября" && day in 1..31 -> date.add("10")
-                parts[1] == "ноября" && day in 1..30 -> date.add("11")
-                parts[1] == "декабря" && day in 1..31 -> date.add("12")
-                else -> return ""
-            }
-            date.add(parts[2])
-            val q = date.joinToString(separator = ".")
-            return q
-        } catch (t: NumberFormatException) {
-            return ""
+    val day = parts[0].toInt()
+    date.add(twoDigitStr(day))
+    if (parts.size != 3) return ""
+    try {
+        when {
+            parts[1] == "января" && day in 1..31 -> date.add("01")
+            parts[1] == "февраля" && day in 1..29 -> date.add("02")
+            parts[1] == "марта" && day in 1..31 -> date.add("03")
+            parts[1] == "апреля" && day in 1..30 -> date.add("04")
+            parts[1] == "мая" && day in 1..31 -> date.add("05")
+            parts[1] == "июня" && day in 1..30 -> date.add("06")
+            parts[1] == "июля" && day in 1..31 -> date.add("07")
+            parts[1] == "августа" && day in 1..31 -> date.add("08")
+            parts[1] == "сентября" && day in 1..30 -> date.add("09")
+            parts[1] == "октября" && day in 1..31 -> date.add("10")
+            parts[1] == "ноября" && day in 1..30 -> date.add("11")
+            parts[1] == "декабря" && day in 1..31 -> date.add("12")
+            else -> throw NumberFormatException()
         }
-    } else return ""
+        date.add(parts[2])
+        return date.joinToString(separator = ".")
+    } catch (t: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -108,19 +106,18 @@ fun dateDigitToStr(digital: String): String {
     val list = mutableListOf<String>("января", "февраля", "марта",
             "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val q = mutableListOf<String>()
-    if (parts.size == 3) {
-        try {
-            val day = parts[0].toInt()
-            q.add(day.toString())
-            val month = parts[1].toInt()
-            if (month in 1..12) q.add(list[month - 1])
-            else return ""
-            q.add(parts[2])
-            return q.joinToString(" ")
-        } catch (t: NumberFormatException) {
-            return ""
-        }
-    } else return ""
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        q.add(day.toString())
+        val month = parts[1].toInt()
+        if (month in 1..12) q.add(list[month - 1])
+        else return ""
+        q.add(parts[2])
+        return q.joinToString(" ")
+    } catch (t: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -136,19 +133,10 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val w = phone.split("-", " ", ")", "(").joinToString("")
-    val q = w.toList()
-    println(q)
-    try {
-        if (phone.isEmpty() || phone == " " || (q[0] !in '0'..'9' && q.size == 1)) throw NumberFormatException()
-        for (i in 0 until q.size) {
-            if (q[i] != '+')
-                if (q[i] in '0'..'9') {
-                } else throw NumberFormatException()
-        }
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    val w = phone.filter { it != ' ' && it != '-' && it != '(' && it != ')' }
+    if (phone.isEmpty() || phone.length == 1 && phone[0] !in '0'..'9') return ""
+    if (phone[0] != '+' && phone[0] !in '0'..'9') return ""
+    for (i in 1 until w.length) if (w[i] !in '0'..'9') return ""
     return w
 }
 
