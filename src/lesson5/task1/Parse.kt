@@ -235,7 +235,6 @@ fun firstDuplicateIndex(str: String): Int {
     var result = 0
     if (q.size in 0..1 || q.size == 2 && q[0] != q[1]) return -1
     for (i in 0..q.size - 2) {
-        println(q[i])
         if (q[i] == q[i + 1]) return result
         result += q[i].length + 1
     }
