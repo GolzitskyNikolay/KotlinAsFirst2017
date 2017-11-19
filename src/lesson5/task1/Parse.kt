@@ -154,7 +154,7 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val q = jumps.split(" ").filter { it != "%" && it != "-" && it != "" }
+    val q = jumps.split(" ", "%", "-").filter { it != "" }
     var max = 0
     if (q.isEmpty()) return -1
     try {
@@ -176,7 +176,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val q = jumps.split(" ").filter { it != "%" && it != "-" && it != "" }
+    val q = jumps.split(" ", "%", "-").filter { it != "" }
     var max = -1
     if (q.size == 1) return -1
     var k = 0
@@ -235,10 +235,10 @@ fun firstDuplicateIndex(str: String): Int {
     var result = 0
     if (q.size in 0..1 || q.size == 2 && q[0] != q[1]) return -1
     for (i in 0..q.size - 2) {
-        if (q[i] == q[i + 1]) return result
+        if (q[i] == q[i + 1] && q[i] != "") return result
         result += q[i].length + 1
     }
-    return result
+    return -1
 }
 
 /**

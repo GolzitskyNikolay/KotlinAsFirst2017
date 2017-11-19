@@ -90,7 +90,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun bestHighJump() {
-        assertEquals(3, bestHighJump("2 - 3 +"))
+        assertEquals(976580878, bestHighJump(" 961560558 +  976580878 %+ 147483648 %+"))
         assertEquals(-1, bestHighJump("!@#$%^&*((*&^%$#%^&"))
         assertEquals(-1, bestHighJump(" "))
         assertEquals(-1, bestHighJump(""))
@@ -112,6 +112,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun firstDuplicateIndex() {
+        assertEquals(-1, firstDuplicateIndex("R  "))
         assertEquals(-1, firstDuplicateIndex("Привет пока"))
         assertEquals(0, firstDuplicateIndex("Пам пам"))
         assertEquals(-1, firstDuplicateIndex("Привет"))
