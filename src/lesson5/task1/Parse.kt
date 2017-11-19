@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import lesson3.task1.digitNumber
+
 /**
  * Пример
  *
@@ -68,10 +70,10 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     val date = mutableListOf<String>()
-    val day = parts[0].toInt()
-    date.add(twoDigitStr(day))
     if (parts.size != 3) return ""
     try {
+        val day = parts[0].toInt()
+        date.add(twoDigitStr(day))
         when {
             parts[1] == "января" && day in 1..31 -> date.add("01")
             parts[1] == "февраля" && day in 1..29 -> date.add("02")
@@ -152,18 +154,11 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val q = jumps.filter { (it.toString() != "%") && (it.toString() != "-") }.split(" ")
+    val q = jumps.split(" ").filter { it != "%" && it != "-" && it != "" }
     var max = 0
+    if (q.isEmpty()) return -1
     try {
-        if (q.joinToString("") == "") throw NumberFormatException()
-        else for (i in 0 until q.size) {
-            if (q[i] != "") {
-                if (q[i].toInt() > max)
-                    max = q[i].toInt()
-            }
-            if (q[i] != "" && q[i].toInt() !in 0..Int.MAX_VALUE) throw NumberFormatException()
-        }
-
+        for (i in q) if (i.toInt() > max) max = i.toInt()
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -181,16 +176,14 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val q = jumps.filter { (it.toString() != "%") && (it.toString() != "-") }.split(" ")
+    val q = jumps.split(" ").filter { it != "%" && it != "-" && it != "" }
     var max = -1
-    println(q)
+    if (q.size == 1) return -1
+    var k = 0
     try {
-        if (q.size == 1) return -1
-        else for (i in 0..q.size - 2 step 2) {
-            if (q[i].toInt() in 0..Int.MAX_VALUE && q[i + 1] == "+") {
-                if (q[i].toInt() > max) max = q[i].toInt()
-            } else if (q[i].toInt() in 0..Int.MAX_VALUE && q[i + 1] == "") {
-            } else throw NumberFormatException()
+        while (k <= q.size - 2) {
+            if (q[k] != "+" && q[k + 1] == "+" && q[k].toInt() > max) max = q[k].toInt()
+            k++
         }
     } catch (e: NumberFormatException) {
         return -1
@@ -209,16 +202,12 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val q = expression.split(" ")
-    if (expression.isEmpty() || expression == " " || (q.size == 1 && expression[0]
-            !in '0'..'9')) throw IllegalArgumentException()
-    var result = 0
-    for (element in expression) {
-        if (element in '0'..'9' || element == '+' || element == '-' || element == ' ') {
-        } else throw IllegalArgumentException()
-    }
-    result = q[0].toInt()
+    if (expression.isEmpty() || expression == " " || (q.size == 1 && expression[0] !in '0'..'9'))
+        throw IllegalArgumentException()
+    for (e in expression)
+        if (e !in '0'..'9' && e != '+' && e != '-' && e != ' ') throw IllegalArgumentException()
+    var result = q[0].toInt()
     when {
-        q[0].toInt() !in 0..Int.MAX_VALUE -> throw IllegalArgumentException()
         q.size in 1..2 -> return result
         else -> for (i in 0 until q.size - 1 step 2) {
             when {
@@ -240,21 +229,15 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
+
 fun firstDuplicateIndex(str: String): Int {
     val q = str.toLowerCase().split(" ")
-    if (q.size in 0..1) return -1
-    val w = str.split("")
-    var e = 0
     var result = 0
+    if (q.size in 0..1 || q.size == 2 && q[0] != q[1]) return -1
     for (i in 0..q.size - 2) {
-        if (q[i] == q[i + 1]) e = i
-    }
-    for (j in 1..w.size - 2) {
-        if (e > 0) {
-            if (w[j] == " ") e -= 1
-            result++
-
-        }
+        println(q[i])
+        if (q[i] == q[i + 1]) return result
+        result += q[i].length + 1
     }
     return result
 }

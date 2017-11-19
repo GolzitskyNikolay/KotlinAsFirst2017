@@ -33,6 +33,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
+        assertEquals("", dateStrToDigit(")*?;№ июля 2016"))
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
@@ -74,6 +75,11 @@ class Tests {
     @Test
     @Tag("Normal")
     fun bestLongJump() {
+        assertEquals(-1, bestLongJump(" "))
+        assertEquals(-1, bestLongJump(""))
+        assertEquals(-1, bestLongJump("706 % 7 - 717  97465f- 703"))
+        assertEquals(-1, bestLongJump(")(*&F $%^&* )("))
+        assertEquals(-1, bestLongJump("!@#$%^&*("))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
@@ -84,6 +90,11 @@ class Tests {
     @Test
     @Tag("Hard")
     fun bestHighJump() {
+        assertEquals(3, bestHighJump("2 - 3 +"))
+        assertEquals(-1, bestHighJump("!@#$%^&*((*&^%$#%^&"))
+        assertEquals(-1, bestHighJump(" "))
+        assertEquals(-1, bestHighJump(""))
+        assertEquals(-1, bestHighJump("226 + )(*&^ +"))
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
@@ -101,6 +112,8 @@ class Tests {
     @Test
     @Tag("Hard")
     fun firstDuplicateIndex() {
+        assertEquals(-1, firstDuplicateIndex("Привет пока"))
+        assertEquals(0, firstDuplicateIndex("Пам пам"))
         assertEquals(-1, firstDuplicateIndex("Привет"))
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
