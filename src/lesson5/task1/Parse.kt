@@ -71,29 +71,29 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     val date = mutableListOf<String>()
     if (parts.size != 3) return ""
-    try {
-        val day = parts[0].toInt()
-        date.add(twoDigitStr(day))
-        when {
-            parts[1] == "января" && day in 1..31 -> date.add("01")
-            parts[1] == "февраля" && day in 1..29 -> date.add("02")
-            parts[1] == "марта" && day in 1..31 -> date.add("03")
-            parts[1] == "апреля" && day in 1..30 -> date.add("04")
-            parts[1] == "мая" && day in 1..31 -> date.add("05")
-            parts[1] == "июня" && day in 1..30 -> date.add("06")
-            parts[1] == "июля" && day in 1..31 -> date.add("07")
-            parts[1] == "августа" && day in 1..31 -> date.add("08")
-            parts[1] == "сентября" && day in 1..30 -> date.add("09")
-            parts[1] == "октября" && day in 1..31 -> date.add("10")
-            parts[1] == "ноября" && day in 1..30 -> date.add("11")
-            parts[1] == "декабря" && day in 1..31 -> date.add("12")
-            else -> throw NumberFormatException()
-        }
-        date.add(parts[2])
-        return date.joinToString(separator = ".")
+    val day = try {
+        parts[0].toInt()
     } catch (t: NumberFormatException) {
         return ""
     }
+    date.add(twoDigitStr(day))
+    when {
+        parts[1] == "января" && day in 1..31 -> date.add("01")
+        parts[1] == "февраля" && day in 1..29 -> date.add("02")
+        parts[1] == "марта" && day in 1..31 -> date.add("03")
+        parts[1] == "апреля" && day in 1..30 -> date.add("04")
+        parts[1] == "мая" && day in 1..31 -> date.add("05")
+        parts[1] == "июня" && day in 1..30 -> date.add("06")
+        parts[1] == "июля" && day in 1..31 -> date.add("07")
+        parts[1] == "августа" && day in 1..31 -> date.add("08")
+        parts[1] == "сентября" && day in 1..30 -> date.add("09")
+        parts[1] == "октября" && day in 1..31 -> date.add("10")
+        parts[1] == "ноября" && day in 1..30 -> date.add("11")
+        parts[1] == "декабря" && day in 1..31 -> date.add("12")
+        else -> return ""
+    }
+    date.add(parts[2])
+    return date.joinToString(separator = ".")
 }
 
 /**
@@ -115,11 +115,11 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toInt()
         if (month in 1..12) q.add(list[month - 1])
         else return ""
-        q.add(parts[2])
-        return q.joinToString(" ")
     } catch (t: NumberFormatException) {
         return ""
     }
+    q.add(parts[2])
+    return q.joinToString(" ")
 }
 
 /**
@@ -155,8 +155,7 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val q = jumps.split(" ", "%", "-").filter { it != "" }
-    var max = 0
-    if (q.isEmpty()) return -1
+    var max = -1
     try {
         for (i in q) if (i.toInt() > max) max = i.toInt()
     } catch (e: NumberFormatException) {
@@ -178,13 +177,8 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val q = jumps.split(" ", "%", "-").filter { it != "" }
     var max = -1
-    if (q.size == 1) return -1
-    var k = 0
     try {
-        while (k <= q.size - 2) {
-            if (q[k] != "+" && q[k + 1] == "+" && q[k].toInt() > max) max = q[k].toInt()
-            k++
-        }
+        for (k in 0..q.size - 2) if (q[k] != "+" && q[k + 1] == "+" && q[k].toInt() > max) max = q[k].toInt()
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -201,11 +195,11 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val q = expression.split(" ")
-    if (expression.isEmpty() || expression == " " || (q.size == 1 && expression[0] !in '0'..'9'))
+    if (expression.isEmpty() || expression == " " || (expression.length == 1 && expression[0] !in '0'..'9'))
         throw IllegalArgumentException()
     for (e in expression)
         if (e !in '0'..'9' && e != '+' && e != '-' && e != ' ') throw IllegalArgumentException()
+    val q = expression.split(" ")
     var result = q[0].toInt()
     when {
         q.size in 1..2 -> return result
