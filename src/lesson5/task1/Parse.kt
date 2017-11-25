@@ -135,13 +135,10 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val w = phone.filter { it != ' ' && it != '-' && it != '(' && it != ')' }
-    if (phone.isEmpty() || phone.length == 1 && phone[0] !in '0'..'9') return ""
-    if (phone[0] != '+' && phone[0] !in '0'..'9') return ""
-    for (i in 1 until w.length) if (w[i] !in '0'..'9') return ""
-    return w
+    val result = phone.filter { it != ' ' && it != '-' && it != '(' && it != ')' }
+    if (!result.matches(Regex("""[+]?[0-9]+"""))) return ""
+    return result
 }
-
 
 /**
  * Средняя
@@ -195,20 +192,16 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (expression.isEmpty() || expression == " " || (expression.length == 1 && expression[0] !in '0'..'9'))
-        throw IllegalArgumentException()
-    for (e in expression)
-        if (e !in '0'..'9' && e != '+' && e != '-' && e != ' ') throw IllegalArgumentException()
     val q = expression.split(" ")
+    for (e in q)
+        if (e !in "0".."9" && e != "+" && e != "-") throw IllegalArgumentException()
     var result = q[0].toInt()
-    when {
-        q.size in 1..2 -> return result
-        else -> for (i in 0 until q.size - 1 step 2) {
-            when {
-                q[i + 1] == "+" -> result += q[i + 2].toInt()
-                q[i + 1] == "-" -> result -= q[i + 2].toInt()
-                else -> throw IllegalArgumentException()
-            }
+    if (q.size in 1..2) return result
+    else for (i in 0 until q.size - 1 step 2) {
+        when {
+            q[i + 1] == "+" -> result += q[i + 2].toInt()
+            q[i + 1] == "-" -> result -= q[i + 2].toInt()
+            else -> throw IllegalArgumentException()
         }
     }
     return result
@@ -247,12 +240,12 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val q = description.split(" ", ";").filter { it != "" }
+    val q = description.split("; ", " ")
     var k = ""
     var max = 0.0
-    if (q.size == 2) return q[0]
+    if (q.size < 2) return ""
     for (i in 1..q.size step 2)
-        if (q.size > 2 && q[i].toDouble() > max) {
+        if (q[i].toDouble() > max) {
             max = q[i].toDouble()
             k = q[i - 1]
         }
