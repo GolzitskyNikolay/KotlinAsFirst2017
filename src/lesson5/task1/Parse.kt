@@ -192,9 +192,9 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    for (e in expression)
+        if (e !in '0'..'9' && e != '+' && e != '-' && e != ' ') throw IllegalArgumentException()
     val q = expression.split(" ")
-    for (e in q)
-        if (e !in "0".."9" && e != "+" && e != "-") throw IllegalArgumentException()
     var result = q[0].toInt()
     if (q.size in 1..2) return result
     else for (i in 0 until q.size - 1 step 2) {
