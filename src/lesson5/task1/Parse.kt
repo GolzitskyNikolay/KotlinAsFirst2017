@@ -244,7 +244,7 @@ fun mostExpensive(description: String): String {
     var k = ""
     var max = 0.0
     for (i in 1..q.size step 2)
-        if (q[i].toDouble() > max) {
+        if (q[i].toDouble() >= max) {
             max = q[i].toDouble()
             k = q[i - 1]
         }
