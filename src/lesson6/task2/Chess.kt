@@ -38,7 +38,7 @@ fun square(notation: String): Square {
     val column = notation[0] - 'a' + 1
     val row = notation[1] - '0'
     println(row)
-   if (Square(column,row).inside()) return Square(column,row)
+    if (Square(column, row).inside()) return Square(column, row)
     else throw IllegalArgumentException()
 }
 
