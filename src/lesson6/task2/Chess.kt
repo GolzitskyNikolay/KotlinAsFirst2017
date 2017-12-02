@@ -182,7 +182,49 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start == end) return 0
+    var row = start.row
+    var column = start.column
+    var result = 0
+    while (column != end.column || row != end.row) {
+        if (column == end.column) {
+            while (row != end.row) {
+                if (row > end.row) row -= 1
+                else row++
+                result++
+            }
+            return result
+        }
+        if (row == end.row) {
+            while (column != end.column) {
+                if (column > end.column) column -= 1
+                else column++
+                result++
+            }
+            return result
+        }
+        if (end.row > start.row && end.column < start.column) {
+            column -= 1
+            row++
+        }
+        if (end.row > start.row && end.column > start.column) {
+            column++
+            row++
+        }
+        if (end.row < start.row && end.column < start.column) {
+            column -= 1
+            row -= 1
+        }
+        if (end.row < start.row && end.column > start.column) {
+            column++
+            row -= 1
+        }
+        result++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -198,7 +240,49 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start == end) return listOf(start)
+    var row = start.row
+    var column = start.column
+    var result = listOf<Square>(start)
+    while (column != end.column || row != end.row) {
+        if (column == end.column) {
+            while (row != end.row) {
+                if (row > end.row) row -= 1
+                else row++
+                result += Square(column, row)
+            }
+            return result
+        }
+        if (row == end.row) {
+            while (column != end.column) {
+                if (column > end.column) column -= 1
+                else column++
+                result += Square(column, row)
+            }
+            return result
+        }
+        if (end.row > start.row && end.column < start.column) {
+            column -= 1
+            row++
+        }
+        if (end.row > start.row && end.column > start.column) {
+            column++
+            row++
+        }
+        if (end.row < start.row && end.column < start.column) {
+            column -= 1
+            row -= 1
+        }
+        if (end.row < start.row && end.column > start.column) {
+            column++
+            row -= 1
+        }
+        result += Square(column, row)
+    }
+    return result
+}
 
 /**
  * Сложная
