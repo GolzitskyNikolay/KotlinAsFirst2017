@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -59,7 +60,46 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    var element = 1
+    val result = createMatrix(height, width, element)
+    var countOfCells = height * width
+    var newHeight = height
+    var newWidth = width
+    var column = 0
+    var row = 0
+    while (countOfCells > 0) {
+        for (i in 0 until newWidth) {
+            result[row, column] = element
+            column++
+            element++
+            countOfCells -= 1
+        }
+        newHeight -= 1
+        for (i in 0 until newHeight) {
+            row++
+            column -= 1
+            result[row, column] = element
+            element++
+            countOfCells -= 1
+        }
+        newWidth -= 1
+        for (i in 0 until newHeight) {
+            column -= 1
+            result[row, column] = element
+            element++
+            countOfCells -= 1
+        }
+        newHeight -= 1
+        for (i in 0 until newHeight) {
+            row -= 1
+            result[row, column] = element
+            element++
+            countOfCells -= 1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
