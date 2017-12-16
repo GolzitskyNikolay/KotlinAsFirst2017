@@ -163,7 +163,6 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
         column++
         element++
     }
-    println(result)
     return result
 }
 
