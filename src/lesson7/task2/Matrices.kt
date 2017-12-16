@@ -61,44 +61,48 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  *  9  8  7  6
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
-    var element = 1
+    var element = 1 // наши натуральные числа
     val result = createMatrix(height, width, element)
     var countOfCells = height * width
-    var newHeight = height
-    var newWidth = width
+    var Right = height
+    var Down = width
+    var Left = 0
+    var Up = 1
     var column = 0
     var row = 0
     while (countOfCells > 0) {
-        for (i in 0 until newWidth) { // заполнение до правой стенки
-            result[row, i] = element
-            column = i
+        while (column <= Down - 1) { // заполнение до правой стенки
+            result[row, column] = element
+            column++
             element++
             countOfCells -= 1
         }
         if (countOfCells == 0) return result
-        newHeight -= 1
-        for (i in 1..newHeight) {  // заполнение до нижней стенки
+        column -= 1
+        Right -= 1
+        while (row <= Right - 1) {  // заполнение до нижней стенки
             row++
             result[row, column] = element
             element++
             countOfCells -= 1
         }
-        newWidth -= 1
-        for (i in 0 until newWidth) { // заполнение до левой стенки
+        if (countOfCells == 0) return result
+        Down -= 1
+        while (column > Left) { // заполнение до левой стенки
             column -= 1
             result[row, column] = element
             element++
             countOfCells -= 1
         }
-        newHeight -= 1
-        column++
-        for (i in 0 until newHeight) {  // заполнение до верхней стенки
+        Left++
+        while (row > Up) {  // заполнение до верхней стенки
             row -= 1
             result[row, column] = element
             element++
             countOfCells -= 1
         }
-        newWidth -= 1
+        Up++
+        column++
     }
     return result
 }
