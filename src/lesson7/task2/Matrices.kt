@@ -122,7 +122,49 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    var element = 1
+    val result = createMatrix(height, width, element)
+    var NotPeriferia = height * width - (width * 2 + (height - 2) * 2)
+    var Right = height
+    var Down = width
+    var Left = 0
+    var Up = 1
+    var column = 0
+    var row = 0
+    while (NotPeriferia > 0) {
+        while (column <= Down - 1) { // заполнение до правой стенки
+            result[row, column] = element
+            column++
+            NotPeriferia -= 1
+        }
+        if (NotPeriferia == 0) return result
+        column -= 1
+        Right -= 1
+        while (row <= Right - 1) {  // заполнение до нижней стенки
+            row++
+            result[row, column] = element
+            NotPeriferia -= 1
+        }
+        if (NotPeriferia == 0) return result
+        Down -= 1
+        while (column > Left) { // заполнение до левой стенки
+            column -= 1
+            result[row, column] = element
+            NotPeriferia -= 1
+        }
+        Left++
+        while (row > Up) {  // заполнение до верхней стенки
+            row -= 1
+            result[row, column] = element
+            NotPeriferia -= 1
+        }
+        Up++
+        column++
+        element++
+    }
+    return result
+}
 
 /**
  * Сложная
