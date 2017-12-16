@@ -237,14 +237,17 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     if (!description.matches(Regex("""(([^\s]+ [0-9]+[.]?[0-9]*[;]?[\s]?)+)"""))) return ""
     val q = description.split("; ", " ")
-    var k = ""
+    var result = ""
     var max = 0.0
-    for (i in 1..q.size step 2)
-        if (q[i].toDouble() >= max) {
-            max = q[i].toDouble()
-            k = q[i - 1]
+    var Cost = 0.0
+    for (i in 1..q.size step 2) {
+        Cost = q[i].toDouble()
+        if (Cost >= max) {
+            max = Cost
+            result = q[i - 1]
         }
-    return k
+    }
+    return result
 }
 
 /**
