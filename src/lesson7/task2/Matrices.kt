@@ -97,9 +97,11 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             element++
             countOfCells -= 1
         }
+        newWidth -= 1
     }
     return result
 }
+
 
 /**
  * Сложная
