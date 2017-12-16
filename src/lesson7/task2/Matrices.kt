@@ -90,6 +90,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             countOfCells -= 1
         }
         newHeight -= 1
+        column++
         for (i in 0 until newHeight) {
             row -= 1
             result[row, column] = element
