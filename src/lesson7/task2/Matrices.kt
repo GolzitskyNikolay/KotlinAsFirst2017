@@ -69,21 +69,22 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var column = 0
     var row = 0
     while (countOfCells > 0) {
-        for (i in 0 until newWidth) {
+        for (i in 0 until newWidth) { // заполнение до правой стенки
             result[row, i] = element
             column = i
             element++
             countOfCells -= 1
         }
+        if (countOfCells == 0) return result
         newHeight -= 1
-        for (i in 1..newHeight) {
+        for (i in 1..newHeight) {  // заполнение до нижней стенки
             row++
             result[row, column] = element
             element++
             countOfCells -= 1
         }
         newWidth -= 1
-        for (i in 0 until newWidth) {
+        for (i in 0 until newWidth) { // заполнение до левой стенки
             column -= 1
             result[row, column] = element
             element++
@@ -91,7 +92,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         }
         newHeight -= 1
         column++
-        for (i in 0 until newHeight) {
+        for (i in 0 until newHeight) {  // заполнение до верхней стенки
             row -= 1
             result[row, column] = element
             element++
