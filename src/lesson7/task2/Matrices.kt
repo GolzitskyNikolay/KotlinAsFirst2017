@@ -70,15 +70,14 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var row = 0
     while (countOfCells > 0) {
         for (i in 0 until newWidth) {
-            result[row, column] = element
-            column++
+            result[row, i] = element
+            column = i
             element++
             countOfCells -= 1
         }
         newHeight -= 1
         for (i in 0 until newHeight) {
             row++
-            if (column >0) column -= 1
             result[row, column] = element
             element++
             countOfCells -= 1
