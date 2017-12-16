@@ -142,22 +142,18 @@ fun bishopMoveNumber(start: Square, end: Square): Int = when {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    if (!end.inside() || (start.column + start.row) % 2 != (end.column + end.row) % 2) return listOf()
-    if (start == end) return listOf(start)
-    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return listOf(start, end)
-    for (i in -7..7) {
-        val y1 = Square(start.column + i, start.row + i)
-        val y2 = Square(start.column - i, start.row + i)
-        for (j in -7..7) {
-            val y3 = Square(end.column - j, end.row + j)
-            val y4 = Square(end.column + j, end.row + j)
-            if (y1 == y3 && y1.inside() && y3.inside()) return listOf(start, y3, end)
-            if (y1 == y4 && y1.inside() && y4.inside()) return listOf(start, y4, end)
-            if (y2 == y3 && y2.inside() && y3.inside()) return listOf(start, y3, end)
-            if (y2 == y4 && y2.inside() && y4.inside()) return listOf(start, y4, end)
-        }
+    when {
+        !end.inside() || (start.column + start.row) % 2 != (end.column + end.row) % 2 -> return listOf()
+        start == end -> return listOf(start)
+        Math.abs(start.column - end.column) == Math.abs(start.row - end.row) -> return listOf(start, end)
     }
-    return listOf()
+    var Column = (start.column - start.row + end.column + end.row) / 2
+    var Row = (start.row - start.column + end.column + end.row) / 2
+    if (Column !in 1..8 || Row !in 1..8) {
+        Column = (end.column - end.row + start.column + start.row) / 2
+        Row = (end.row - end.column + start.column + start.row) / 2
+    }
+    return listOf(start, Square(Column, Row), end)
 }
 
 
@@ -183,46 +179,9 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
  */
 fun kingMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (start == end) return 0
-    var row = start.row
-    var column = start.column
-    var result = 0
-    while (column != end.column || row != end.row) {
-        if (column == end.column) {
-            while (row != end.row) {
-                if (row > end.row) row -= 1
-                else row++
-                result++
-            }
-            return result
-        }
-        if (row == end.row) {
-            while (column != end.column) {
-                if (column > end.column) column -= 1
-                else column++
-                result++
-            }
-            return result
-        }
-        if (end.row > start.row && end.column < start.column) {
-            column -= 1
-            row++
-        }
-        if (end.row > start.row && end.column > start.column) {
-            column++
-            row++
-        }
-        if (end.row < start.row && end.column < start.column) {
-            column -= 1
-            row -= 1
-        }
-        if (end.row < start.row && end.column > start.column) {
-            column++
-            row -= 1
-        }
-        result++
-    }
-    return result
+    val RowDifference = Math.abs(end.row - start.row)
+    val ColumnDifference = Math.abs(end.column - start.column)
+    return Math.max(ColumnDifference, RowDifference)
 }
 
 /**
@@ -241,44 +200,21 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (start == end) return listOf(start)
-    var row = start.row
-    var column = start.column
-    var result = listOf<Square>(start)
-    while (column != end.column || row != end.row) {
-        if (column == end.column) {
-            while (row != end.row) {
-                if (row > end.row) row -= 1
-                else row++
-                result += Square(column, row)
-            }
-            return result
+    var StartRow = start.row
+    var StartColumn = start.column
+    val result = mutableListOf(start)
+    while (Square(StartColumn, StartRow) != end) {
+        StartRow = when {
+            StartRow > end.row -> StartRow - 1
+            StartRow < end.row -> StartRow + 1
+            else -> StartRow
         }
-        if (row == end.row) {
-            while (column != end.column) {
-                if (column > end.column) column -= 1
-                else column++
-                result += Square(column, row)
-            }
-            return result
+        StartColumn = when {
+            StartColumn > end.column -> StartColumn - 1
+            StartColumn < end.column -> StartColumn + 1
+            else -> StartColumn
         }
-        if (end.row > start.row && end.column < start.column) {
-            column -= 1
-            row++
-        }
-        if (end.row > start.row && end.column > start.column) {
-            column++
-            row++
-        }
-        if (end.row < start.row && end.column < start.column) {
-            column -= 1
-            row -= 1
-        }
-        if (end.row < start.row && end.column > start.column) {
-            column++
-            row -= 1
-        }
-        result += Square(column, row)
+        result.add(Square(StartColumn, StartRow))
     }
     return result
 }
