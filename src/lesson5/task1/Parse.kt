@@ -67,33 +67,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+
+val MonthsList = mutableListOf<String>("января", "февраля", "марта",
+        "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+val DateList = mutableListOf<String>("01", "02", "03",
+        "04", "05", "06", "07", "08", "09", "10", "11", "12")
+
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val date = mutableListOf<String>()
     if (parts.size != 3) return ""
+    val result = mutableListOf<String>()
     val day = try {
         parts[0].toInt()
     } catch (t: NumberFormatException) {
         return ""
     }
-    date.add(twoDigitStr(day))
-    when {
-        parts[1] == "января" && day in 1..31 -> date.add("01")
-        parts[1] == "февраля" && day in 1..29 -> date.add("02")
-        parts[1] == "марта" && day in 1..31 -> date.add("03")
-        parts[1] == "апреля" && day in 1..30 -> date.add("04")
-        parts[1] == "мая" && day in 1..31 -> date.add("05")
-        parts[1] == "июня" && day in 1..30 -> date.add("06")
-        parts[1] == "июля" && day in 1..31 -> date.add("07")
-        parts[1] == "августа" && day in 1..31 -> date.add("08")
-        parts[1] == "сентября" && day in 1..30 -> date.add("09")
-        parts[1] == "октября" && day in 1..31 -> date.add("10")
-        parts[1] == "ноября" && day in 1..30 -> date.add("11")
-        parts[1] == "декабря" && day in 1..31 -> date.add("12")
-        else -> return ""
+    for (i in 0 until MonthsList.size) {
+        if (MonthsList[i] == parts[1]) {
+            result.add(twoDigitStr(day))
+            result.add(DateList[i])
+            result.add(parts[2])
+            return result.joinToString(separator = ".")
+        }
     }
-    date.add(parts[2])
-    return date.joinToString(separator = ".")
+    return ""
 }
 
 /**
@@ -105,21 +102,19 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val list = mutableListOf<String>("января", "февраля", "марта",
-            "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    val q = mutableListOf<String>()
+    val result = mutableListOf<String>()
     if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
-        q.add(day.toString())
+        result.add(day.toString())
         val month = parts[1].toInt()
-        if (month in 1..12) q.add(list[month - 1])
+        if (month in 1..12) result.add(MonthsList[month - 1])
         else return ""
     } catch (t: NumberFormatException) {
         return ""
     }
-    q.add(parts[2])
-    return q.joinToString(" ")
+    result.add(parts[2])
+    return result.joinToString(" ")
 }
 
 /**
