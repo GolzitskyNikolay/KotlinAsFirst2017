@@ -64,11 +64,11 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!end.inside() || !start.inside()) throw IllegalArgumentException()
-    if (end == start) return 0
-    return if (start.column == end.column || start.row == end.row) 1
-    else 2
+fun rookMoveNumber(start: Square, end: Square): Int = when {
+    !end.inside() || !start.inside() -> throw IllegalArgumentException()
+    end == start -> 0
+    start.column == end.column || start.row == end.row -> 1
+    else -> 2
 }
 
 /**
@@ -85,11 +85,11 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> {
-    if (!end.inside() || !start.inside()) throw IllegalArgumentException()
-    if (start == end) return listOf(start)
-    if (rookMoveNumber(start, end) == 1) return listOf(start, end)
-    else return listOf(start, Square(start.column, end.row), end)
+fun rookTrajectory(start: Square, end: Square): List<Square> = when {
+    !end.inside() || !start.inside() -> throw IllegalArgumentException()
+    start == end -> listOf(start)
+    rookMoveNumber(start, end) == 1 -> listOf(start, end)
+    else -> listOf(start, Square(start.column, end.row), end)
 }
 
 /**
@@ -115,13 +115,12 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if ((start.column + start.row) % 2 != (end.column + end.row) % 2) return -1
-    if (start == end) return 0
-    if (Math.abs(start.row - end.row) == Math.abs(start.column - end.column))
-        return 1
-    else return 2
+fun bishopMoveNumber(start: Square, end: Square): Int = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
+    (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1
+    start == end -> 0
+    Math.abs(start.row - end.row) == Math.abs(start.column - end.column) -> 1
+    else -> 2
 }
 
 /**
