@@ -76,7 +76,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             countOfCells -= 1
         }
         newHeight -= 1
-        for (i in 0 until newHeight) {
+        for (i in 1..newHeight) {
             row++
             result[row, column] = element
             element++

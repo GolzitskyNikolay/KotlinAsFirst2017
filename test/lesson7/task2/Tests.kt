@@ -37,6 +37,18 @@ class Tests {
     @Test
     @Tag("Hard")
     fun generateSpiral() {
+        assertEquals(createMatrix(9, 1,
+                listOf(
+                        listOf(1),
+                        listOf(2),
+                        listOf(3),
+                        listOf(4),
+                        listOf(5),
+                        listOf(6),
+                        listOf(7),
+                        listOf(8),
+                        listOf(9)
+                )), generateSpiral(9, 1))
         assertEquals(createMatrix(8, 9,
                 listOf(
                         listOf(1, 2, 3, 4, 5, 6, 7, 8, 9),
